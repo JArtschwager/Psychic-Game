@@ -25,7 +25,7 @@
         <p>Guesses Left: <span id="guessesLeft"></span>
         </p>
 
-        <p>Your guesses so far: <span id="guessedWrong"></span>
+        <p>Your guesses so far: <span id="wrongGuesses"></span>
         </p>
     </div>
 
@@ -37,34 +37,62 @@
 // var lossesEl = document.getElementById('losses');
 // var guessesLeftEl = document.getElementById('guessesLeft');
 // var guessedWrongEl = document.getElementById('guessedWrong');
-
-
-
-
- /* first, create a var to create the data we will look to affect. */
- var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
- /* then call on the var to get a random letter*/
-
-//   math.random()  where to add?  need to assign in the psuedo code
-console.log(Math.random());
-//    0.7 * 26
-var randomNumber = Math.floor(Math.random() * letters.length);
-// document.getElementById("computersGuess").innerHTML = randomNumber + ' ' + letters[randomNumber];
-// add in here the wins, losses, ties starting point.  the var attached to HTML 
-var randomLetter = letters[randomNumber];
-
 var wins = 0;
 var losses = 0;
 var guessesLeft = 0;
 var guessedWrong = 0; 
+var randomLetter = '';
+var wrongGuesses = [];
+var userGuess = '';
 
+ /* first, create a var to create the data we will look to affect. */
+ var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+ /* then call on the var to get a random letter*/
+ function newRound() {
+     guessesLeft = 10;
+     guessedWrong = 0;
+    console.log(Math.random());
+    var randomNumber = Math.floor(Math.random() * letters.length);
+    randomLetter = letters[randomNumber];
+
+    document.getElementById("computersGuess").innerHTML = randomLetter;
+    wrongGuesses = [];
+    document.getElementById("wrongGuesses").innerHTML = wrongGuesses;
+}
+
+function wrongAnswer() {
+    guessedWrong += 1;
+    guessesLeft -= 1;
+
+    wrongGuesses.push(userGuess);
+    document.getElementById("wrongGuesses").innerHTML = wrongGuesses; 
+    document.getElementById("guessesLeft").innerHTML = guessesLeft;
+
+    if (guessesLeft === 0) {
+        losses += 1;
+        document.getElementById("losses").innerHTML = losses;
+        newRound();
+    }
+}
+
+newRound();
 //  When a key is pressed the following needs to happen.  the function says document (being the web) on key being lifted, do the function event.  Event is a listerner that will then tell the webpage to do something.  This case, categories where this is gonna go.
 document.onkeyup = function(event) {
     // this capturs the user's guess, everything in this bracket will then happen.  check for conditions and once all the conditions that clikc can cantribute to are done... then close the bracket.  add in the response and else if's.
-    var userGuess = event.key.toLowerCase();
+    userGuess = event.key.toLowerCase();
+
+    if (randomLetter === userGuess){
+        wins += 1;
+        document.getElementById("wins").innerHTML = wins;
+        newRound();
+        // this is a correct guess
+    } else { 
+        wrongAnswer();
+
+    }
+
     // this will make the users event or the click be lower case since the array is case sensitive and then it's stored.
 // the above means the comp will choose a random number from the array, within the length of the array.
-
 // now i need to put in the else if statements and check the users with the computer. in a loop only check for write not wrong.
 
                     // if ((userGuess === computerGuess)) {
