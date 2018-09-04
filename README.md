@@ -4,9 +4,9 @@
 
 * Using Math.floor(Math.random() for randomized numbers for the games main functionality.
 
-* Recording the users guess using onkeyup with toLowerCase for error handling. 
+* Recording the user's guess using onkeyup with toLowerCase for error handling. 
 
-* incrementing wins, losses, guesses left and pushing the guesses into an array.
+* Incrementing wins, losses, guesses left and pushing the guesses into an array.
 
 
 ___
