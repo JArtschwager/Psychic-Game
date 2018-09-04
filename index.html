@@ -1,109 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
+<head profile="http://www.w3.org/2005/10/profile">
+    <link rel="icon" type="image/png" href="./assets/images/alogo.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Psychic Game</title>
 </head>
-<body>
-    <h1>The Psychic Game #1</h1>
-    
-    <div id="userGuess"></div>
-    <div id="computersGuess"></div>
-    <!-- only this chunk is seen on the website.  Above is used to make the application happen.Maybe delete? -->
-    <!-- a div holds the whole game to refer to it later. this would allow a reset? -->
-    <div id="game">
-    <!-- the span is in-line and goes after wins so it will print the result after the work wins. -->
-        <p>Wins: <span id="wins"></span>
-        </p>
-    <!-- these are id's instead of classes because there only gonna be used on place on the website. -->
-        <p>Losses: <span id="losses"></span>
-        </p>
-    <!-- remember JS only 1 word and camel alpha -->
-        <p>Guesses Left: <span id="guessesLeft"></span>
-        </p>
 
-        <p>Your guesses so far: <span id="wrongGuesses"></span>
-        </p>
+<body>
+    <div class="jumbotron jumbotext">
+        <h1 class="display-4 text-center">The Psychic Game</h1>
+        <h2 class="display-6 text-center">How to play</h2>
+        <hr class="my-4">
+        <ol class="list text-center list-style">
+            <li>Click a random letter on your keyboard.</li>
+            <li>If you select the letter the computer has randomly selected, you win!</li>
+            <li>If you guess incorrectly for 10 consecutive guesses, you lose.</li>
+        </ol>
+
+    </div>
+    <div class="container">
+        <div class="row guesses-style">
+            <div class="col">Wins: <span id="wins"></span></div>
+            <div class="col">Guesses Left: <span id="guessesLeft"></span></div>
+            <div class="w-100 space-style"></div>
+            <div class="col">Losses: <span id="losses"></span></div>
+            <div class="col">Your Guesses so far: <span id="wrongGuesses"></span></div>
+            <div class="w-100 space-style"></div>
+        </div>
     </div>
 
-<script>
- 
- /* create a var that matches to the html's ID */
-//  var space JS name for it =document.getElementById(HTML id name for it);
-// var winsEl = document.getElementById('wins');
-// var lossesEl = document.getElementById('losses');
-// var guessesLeftEl = document.getElementById('guessesLeft');
-// var guessedWrongEl = document.getElementById('guessedWrong');
-var wins = 0;
-var losses = 0;
-var guessesLeft = 0;
-var guessedWrong = 0; 
-var randomLetter = '';
-var wrongGuesses = [];
-var userGuess = '';
 
- /* first, create a var to create the data we will look to affect. */
- var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
- /* then call on the var to get a random letter*/
- function newRound() {
-     guessesLeft = 10;
-     guessedWrong = 0;
-    console.log(Math.random());
-    var randomNumber = Math.floor(Math.random() * letters.length);
-    randomLetter = letters[randomNumber];
+    <div id="userGuess"></div>
+    <div id="computersGuess"></div>
+    <!-- a div holds the whole game to refer to it later. this would allow a reset? -->
+    <div id="game"></div>
 
-    // document.getElementById("computersGuess").innerHTML = randomLetter;
-    wrongGuesses = [];
-    document.getElementById("wrongGuesses").innerHTML = wrongGuesses;
-}
 
-function wrongAnswer() {
-    guessedWrong += 1;
-    guessesLeft -= 1;
+    <script type="text/javascript">
+        var wins = 0;
+        var losses = 0;
+        var guessesLeft = 0;
+        var guessedWrong = 0;
+        var randomLetter = '';
+        var wrongGuesses = [];
+        var userGuess = '';
 
-    wrongGuesses.push(userGuess);
-    document.getElementById("wrongGuesses").innerHTML = wrongGuesses; 
-    document.getElementById("guessesLeft").innerHTML = guessesLeft;
+        /* var holding the data to randomize*/
+        var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+            't', 'u', 'v', 'w', 'x', 'y', 'z'
+        ];
 
-    if (guessesLeft === 0) {
-        losses += 1;
-        document.getElementById("losses").innerHTML = losses;
-        newRound();
-    }
-}
+        function newRound() {
+            guessesLeft = 10;
+            guessedWrong = 0;
+            console.log(Math.random());
+            var randomNumber = Math.floor(Math.random() * letters.length);
+            randomLetter = letters[randomNumber];
+            // document.getElementById("computersGuess").innerHTML = randomLetter;
+            wrongGuesses = [];
+            document.getElementById("wrongGuesses").innerHTML = wrongGuesses;
+        }
 
-newRound();
-//  When a key is pressed the following needs to happen.  the function says document (being the web) on key being lifted, do the function event.  Event is a listerner that will then tell the webpage to do something.  This case, categories where this is gonna go.
-document.onkeyup = function(event) {
-    // this capturs the user's guess, everything in this bracket will then happen.  check for conditions and once all the conditions that clikc can cantribute to are done... then close the bracket.  add in the response and else if's.
-    userGuess = event.key.toLowerCase();
+        function wrongAnswer() {
+            guessedWrong += 1;
+            guessesLeft -= 1;
+            wrongGuesses.push(userGuess);
+            document.getElementById("wrongGuesses").innerHTML = wrongGuesses;
+            document.getElementById("guessesLeft").innerHTML = guessesLeft;
 
-    if (randomLetter === userGuess){
-        wins += 1;
-        document.getElementById("wins").innerHTML = wins;
-        newRound();
-        // this is a correct guess
-    } else { 
-        wrongAnswer();
-
-    }
-
-    // this will make the users event or the click be lower case since the array is case sensitive and then it's stored.
-// the above means the comp will choose a random number from the array, within the length of the array.
-// now i need to put in the else if statements and check the users with the computer. in a loop only check for write not wrong.
-
-                    // if ((userGuess === computerGuess)) {
-                    //     wins++;
-                    // }
-                    // if ((userGuess ))
+            if (guessesLeft === 0) {
+                losses += 1;
+                document.getElementById("losses").innerHTML = losses;
+                // $('#myModal').modal(options)
+                // alert('You lose! Click OK or the Enter key to try again');
+                newRound();
             }
-             // if user guess doesn't equal, add to the not write plus 10. 
+        }
+        newRound();
 
+        document.onkeyup = function (event) {
+            userGuess = event.key.toLowerCase();
+            if (randomLetter === userGuess) {
+                wins += 1;
+                document.getElementById("wins").innerHTML = wins;
+                newRound();
+            } else {
+                wrongAnswer();
+            }            
+        }
+       
 
-            
-                </script>
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
-                </html>
+
+</html>
